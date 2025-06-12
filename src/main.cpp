@@ -3,6 +3,8 @@
 
 using namespace geode::prelude;
 
+std::vector<std::string> sounds;
+
 // thanks andy for the code <3 ily
 int64_t randomInt(int64_t min, int64_t max) {
     static std::random_device device;
@@ -15,6 +17,19 @@ int64_t randomInt(int64_t min, int64_t max) {
 $on_mod(Loaded) {
 	geode::log::info("Random Noise loaded!");
 
+    auto mod = Mod::get();
+    if (!mod->setSavedValue("first-load", true)) {
+        std::error_code ec;
+        std::filesystem::copy_file(mod->getResourcesDir() / "randsfx.ogg", mod->getConfigDir() / "randsfx.ogg", ec);
+        if (ec) {
+            geode::log::error("Failed to copy sound effect: {}", ec.message());
+        }
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(mod->getConfigDir())) {
+        if (entry.is_regular_file()) sounds.push_back(string::pathToString(entry.path().filename()));
+    }
+
     std::thread([] {
         while (true) {
             // geode::log::debug("Fat Tuesday is coming up");
@@ -26,6 +41,19 @@ $on_mod(Loaded) {
                 // geode::log::debug("Activated!");
 
                 geode::queueInMainThread([]() {
+                    if (!sounds.empty()) {
+                        auto sound = sounds[randomInt(0, sounds.size() - 1)];
+                        auto path = Mod::get()->getConfigDir() / sound;
+                        std::error_code ec;
+                        if (std::filesystem::exists(path, ec)) {
+                            FMODAudioEngine::get()->playEffect(string::pathToString(path));
+                            return;
+                        }
+                        else {
+                            sounds.erase(std::remove(sounds.begin(), sounds.end(), sound), sounds.end());
+                        }
+                    }
+
                     FMODAudioEngine::get()->playEffect("randsfx.ogg"_spr);
                 });
             }
