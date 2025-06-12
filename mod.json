@@ -1,0 +1,27 @@
+{
+	"geode": "4.5.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "cyntraa.randomnoise",
+	"name": "RandomNoise",
+	"version": "v1.0.0",
+	"developer": "cyntraa",
+	"description": "Has a chance to play a random noise every second. Might induce schizophrenia.",
+	"resources": {
+		"files": [
+			"resources/randsfx.ogg"
+		]
+	},
+	"settings": {
+		"probability": {
+			"name": "Probability",
+			"description": "How likely it is (1 in X chance) for a sound to play",
+			"type": "int",
+			"default": 32
+		}
+	}
+}
