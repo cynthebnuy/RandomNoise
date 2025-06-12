@@ -25,7 +25,9 @@ $on_mod(Loaded) {
             if (gen == 1) {
                 // geode::log::debug("Activated!");
 
-                FMODAudioEngine::get()->playEffect("randsfx.ogg"_spr);
+                geode::queueInMainThread([]() {
+                    FMODAudioEngine::get()->playEffect("randsfx.ogg"_spr);
+                });
             }
 
             std::this_thread::sleep_for(std::chrono::seconds{ 1 });
