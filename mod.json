@@ -8,7 +8,7 @@
 	},
 	"id": "cyntraa.randomnoise",
 	"name": "RandomNoise",
-	"version": "v1.0.1",
+	"version": "v1.1.0",
 	"developer": "cyntraa",
 	"description": "Has a chance to play a random noise every second. Might induce schizophrenia.",
 	"resources": {
@@ -19,15 +19,35 @@
 	"repository": "https://github.com/cynthebnuy/RandomNoise",
 	"tags": ["offline", "joke"],
 	"settings": {
+		"soft-toggle": {
+			"name": "Enable Mod",
+			"description": "Enables the mod.",
+			"type": "bool",
+			"default": true
+		},
 		"probability": {
 			"name": "Probability",
 			"description": "How likely it is (1 in X chance, X being the number you input) for a SFX to play.",
 			"type": "int",
 			"default": 32,
-			"min": 2,
+			"min": 1,
 			"controls": {
 				"arrows": true,
 				"arrow-step": 1,
+				"big-arrows": false,
+				"slider": false,
+				"input": true
+			}
+		},
+		"interval": {
+			"name": "Interval",
+			"description": "How long until a SFX has a chance to play (in seconds)",
+			"type": "float",
+			"default": 1,
+			"min": 0,
+			"controls": {
+				"arrows": false,
+				"arrow-step": 0.05,
 				"big-arrows": false,
 				"slider": false,
 				"input": true

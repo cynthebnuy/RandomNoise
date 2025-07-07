@@ -35,9 +35,12 @@ $on_mod(Loaded) {
             // geode::log::debug("Fat Tuesday is coming up");
 
             auto prob = Mod::get()->getSettingValue<int64_t>("probability");
+            auto intv = Mod::get()->getSettingValue<double>("interval");
+            auto soft = Mod::get()->getSettingValue<bool>("soft-toggle");
+
             auto gen = randomInt(1, prob);
             // geode::log::debug("{}", gen);
-            if (gen == 1) {
+            if (gen == 1 && soft == true) {
                 // geode::log::debug("Activated!");
 
                 geode::queueInMainThread([]() {
@@ -58,7 +61,7 @@ $on_mod(Loaded) {
                 });
             }
 
-            std::this_thread::sleep_for(std::chrono::seconds{ 1 });
+            std::this_thread::sleep_for(std::chrono::duration<double>{ intv });
         }
     }).detach();
 }
